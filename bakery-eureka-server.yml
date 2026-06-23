@@ -1,0 +1,48 @@
+server:
+  port: 8761
+
+# Spring Application Configuration
+spring:
+  profiles:
+    active: dev
+  application:
+    name: bakery-eureka-server
+
+# Eureka Server Configuration
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: false
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 4000
+
+# Management & Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+  # prometheus:
+  #   metrics:
+  #     export:
+  #       enabled: true
+
+# Logging Configuration
+logging:
+  level:
+    com.netflix.eureka: OFF
+    com.netflix.discovery: OFF
+    root: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
