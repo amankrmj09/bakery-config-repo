@@ -4,8 +4,6 @@ server:
 
 # Spring Application Configuration
 spring:
-  profiles:
-    active: dev
   cloud:
     gateway:
       server:

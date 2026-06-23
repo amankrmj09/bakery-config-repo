@@ -4,8 +4,6 @@ server:
 
 # Spring Application Configuration
 spring:
-  profiles:
-    active: dev
 
   # PostgreSQL Database Configuration
   datasource:
@@ -89,7 +87,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, info, metrics, caches
+        include: health, info, metrics, caches, refresh
       base-path: /actuator
   endpoint:
     health:

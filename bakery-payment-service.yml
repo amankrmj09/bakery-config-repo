@@ -4,8 +4,6 @@ server:
 
 # Spring Application Configuration
 spring:
-  profiles:
-    active: dev
 
   # Docker Compose Configuration
   docker:
@@ -71,7 +69,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, info, metrics
+        include: health, info, metrics, refresh
       base-path: /actuator
   endpoint:
     health:
