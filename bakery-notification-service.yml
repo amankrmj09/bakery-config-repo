@@ -9,7 +9,7 @@ spring:
 
   # PostgreSQL Database Configuration
   datasource:
-    url: jdbc:postgresql://blubug.me:5437/bakery_notifications
+    url: jdbc:postgresql://blubug.me:8006/bakery_notifications
     username: notification_user
     password: notification_password
     driver-class-name: org.postgresql.Driver

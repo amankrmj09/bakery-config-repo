@@ -13,7 +13,7 @@ spring:
 
   # PostgreSQL Database Configuration
   datasource:
-    url: jdbc:postgresql://localhost:5434/bakery_orders
+    url: jdbc:postgresql://blubug.me:8003/bakery_orders
     username: order_user
     password: order_password
     driver-class-name: org.postgresql.Driver

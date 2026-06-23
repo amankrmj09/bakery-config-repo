@@ -9,7 +9,7 @@ spring:
 
   # PostgreSQL Database Configuration
   datasource:
-    url: jdbc:postgresql://localhost:5432/bakery_auth
+    url: jdbc:postgresql://blubug.me:8001/bakery_auth
     username: auth_user
     password: auth_password
     driver-class-name: org.postgresql.Driver

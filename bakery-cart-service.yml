@@ -9,7 +9,7 @@ spring:
 
   # PostgreSQL Database Configuration
   datasource:
-    url: jdbc:postgresql://localhost:5436/bakery_carts
+    url: jdbc:postgresql://blubug.me:8005/bakery_carts
     username: cart_user
     password: cart_password
     driver-class-name: org.postgresql.Driver
@@ -52,7 +52,7 @@ spring:
 
     # Redis Configuration
     redis:
-      host: localhost
+      host: blubug.me
       timeout: 60000
       port: 6379
       lettuce:
