@@ -6,8 +6,6 @@ server:
 spring:
   profiles:
     active: dev
-  application:
-    name: payment-service
 
   # Docker Compose Configuration
   docker:

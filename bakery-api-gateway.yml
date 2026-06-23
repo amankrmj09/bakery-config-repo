@@ -6,8 +6,6 @@ server:
 spring:
   profiles:
     active: dev
-  application:
-    name: bakery-api-gateway
   cloud:
     gateway:
       server:
@@ -30,35 +28,35 @@ spring:
                 allowCredentials: true
           routes:
             - id: auth-service
-              uri: lb://auth-service
+              uri: lb://bakery-auth-service
               predicates:
                 - Path=/api/auth/**,/api/users/**
             - id: product-service
-              uri: lb://product-service
+              uri: lb://bakery-product-service
               predicates:
                 - Path=/api/categories/**,/api/products/**,/api/inventory/**
               filters:
                 - AuthenticationFilter
             - id: order-service
-              uri: lb://order-service
+              uri: lb://bakery-order-service
               predicates:
                 - Path=/api/orders/**
               filters:
                 - AuthenticationFilter
             - id: payment-service
-              uri: lb://payment-service
+              uri: lb://bakery-payment-service
               predicates:
                 - Path=/api/payments/**,/api/refunds/**,/api/transactions/**
               filters:
                 - AuthenticationFilter
             - id: cart-service
-              uri: lb://cart-service
+              uri: lb://bakery-cart-service
               predicates:
                 - Path=/api/carts/**,/api/cart-items/**
               filters:
                 - AuthenticationFilter
             - id: notification-service
-              uri: lb://notification-service
+              uri: lb://bakery-notification-service
               predicates:
                 - Path=/api/notifications/**
               filters:

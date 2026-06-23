@@ -6,8 +6,6 @@ server:
 spring:
   profiles:
     active: dev
-  application:
-    name: order-service
   docker:
     compose:
       file: docker-compose-orders-db.yml
