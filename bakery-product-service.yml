@@ -87,6 +87,19 @@ product:
     base-url: "https://bakery-images.s3.amazonaws.com/"
     default-image: "default-product.jpg"
 
+aws:
+  region: ${AWS_REGION:us-east-1}
+  s3:
+    bucket-name: ${AWS_S3_BUCKET_NAME:bakery-images-bucket}
+    endpoint: ${AWS_S3_ENDPOINT:}
+  credentials:
+    access-key: ${AWS_ACCESS_KEY_ID:dummy-access-key}
+    secret-key: ${AWS_SECRET_ACCESS_KEY:dummy-secret-key}
+
+spring.servlet.multipart:
+  max-file-size: 10MB
+  max-request-size: 10MB
+
 # Logging Configuration
 logging:
   level:
