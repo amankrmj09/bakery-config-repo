@@ -9,6 +9,11 @@ spring:
       file: docker-compose-orders-db.yml
       enabled: false
 
+  data:
+    redis:
+      host: blubug.me
+      port: 6379
+
   # PostgreSQL Database Configuration
   datasource:
     url: jdbc:postgresql://blubug.me:8003/bakery_orders

@@ -11,6 +11,11 @@ spring:
       file: docker-compose-payments-db.yml
       enabled: false
 
+  data:
+    redis:
+      host: blubug.me
+      port: 6379
+
   # PostgreSQL Database Configuration
   datasource:
     url: jdbc:postgresql://blubug.me:8004/bakery_payments

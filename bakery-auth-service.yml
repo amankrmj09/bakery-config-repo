@@ -43,6 +43,11 @@ spring:
     compose:
       enabled: false
 
+  data:
+    redis:
+      host: blubug.me
+      port: 6379
+
 #  security:
 #    user:
 #      name: ""
