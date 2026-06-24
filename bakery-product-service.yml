@@ -90,11 +90,11 @@ product:
 aws:
   region: ${AWS_REGION:us-east-1}
   s3:
-    bucket-name: ${AWS_S3_BUCKET_NAME:bakery-images-bucket}
-    endpoint: ${AWS_S3_ENDPOINT:}
+    bucket-name: ${AWS_S3_BUCKET_NAME:bakery}
+    endpoint: ${AWS_S3_ENDPOINT:http://bakery-garagewithui-830bd1-165-232-179-17.sslip.io:3900}
   credentials:
-    access-key: ${AWS_ACCESS_KEY_ID:dummy-access-key}
-    secret-key: ${AWS_SECRET_ACCESS_KEY:dummy-secret-key}
+    access-key: ${AWS_ACCESS_KEY_ID:GKb44846d4dc88ff710735f03b}
+    secret-key: ${AWS_SECRET_ACCESS_KEY:d8f278170a6beb29bf1115ac841fa3e5c9aabc04bcd9c7fb4bca28112bc7424c}
 
 spring.servlet.multipart:
   max-file-size: 10MB
