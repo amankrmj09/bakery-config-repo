@@ -88,13 +88,14 @@ product:
     default-image: "default-product.jpg"
 
 aws:
-  region: ${AWS_REGION:garage}
+  region: auto
   s3:
-    bucket-name: ${AWS_S3_BUCKET_NAME:bakery}
-    endpoint: ${AWS_S3_ENDPOINT:http://bakery-garagewithui-830bd1-165-232-179-17.sslip.io}
+    bucket-name: bakery
+    endpoint: https://59ff51457eb45453daa57ffa1f4a20bd.r2.cloudflarestorage.com
+    public-url: https://pub-49a69af59fc44431a21809176dd88bb8.r2.dev
   credentials:
-    access-key: ${AWS_ACCESS_KEY_ID:GKb44846d4dc88ff710735f03b}
-    secret-key: ${AWS_SECRET_ACCESS_KEY:d8f278170a6beb29bf1115ac841fa3e5c9aabc04bcd9c7fb4bca28112bc7424c}
+    access-key: ad4653738654f9f0e8baf193fd9af2a3
+    secret-key: a64f372de305f1e9bc8f94c84209ee8098383f81bf333dbb21e7b534d554935b
 
 spring.servlet.multipart:
   max-file-size: 10MB
