@@ -88,7 +88,7 @@ product:
     default-image: "default-product.jpg"
 
 aws:
-  region: ${AWS_REGION:us-east-1}
+  region: ${AWS_REGION:garage}
   s3:
     bucket-name: ${AWS_S3_BUCKET_NAME:bakery}
     endpoint: ${AWS_S3_ENDPOINT:http://bakery-garagewithui-830bd1-165-232-179-17.sslip.io}
