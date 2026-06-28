@@ -12,9 +12,9 @@ spring:
 
   # PostgreSQL Database Configuration
   datasource:
-    url: jdbc:postgresql://blubug.me:8003/bakery_orders
-    username: order_user
-    password: order_password
+    url: ${ORDER_DB_URL:jdbc:postgresql://blubug.me:8003/bakery_orders}
+    username: ${ORDER_DB_USER:order_user}
+    password: ${ORDER_DB_PASSWORD:order_password}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10

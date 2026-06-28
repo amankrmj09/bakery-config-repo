@@ -7,9 +7,9 @@ spring:
 
   # PostgreSQL Database Configuration
   datasource:
-    url: jdbc:postgresql://blubug.me:8005/bakery_carts
-    username: cart_user
-    password: cart_password
+    url: ${CART_DB_URL:jdbc:postgresql://blubug.me:8005/bakery_carts}
+    username: ${CART_DB_USER:cart_user}
+    password: ${CART_DB_PASSWORD:cart_password}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
@@ -50,9 +50,9 @@ spring:
 
     # Redis Configuration
     redis:
-      host: blubug.me
+      host: ${REDIS_HOST:blubug.me}
       timeout: 60000
-      port: 6379
+      port: ${REDIS_PORT_CART:6379}
       lettuce:
         pool:
           max-active: 10

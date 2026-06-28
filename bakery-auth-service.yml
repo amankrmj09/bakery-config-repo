@@ -7,9 +7,9 @@ spring:
 
   # PostgreSQL Database Configuration
   datasource:
-    url: jdbc:postgresql://blubug.me:8001/bakery_auth
-    username: auth_user
-    password: auth_password
+    url: ${AUTH_DB_URL:jdbc:postgresql://blubug.me:8001/bakery_auth}
+    username: ${AUTH_DB_USER:auth_user}
+    password: ${AUTH_DB_PASSWORD:auth_password}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
@@ -45,8 +45,8 @@ spring:
 
   data:
     redis:
-      host: blubug.me
-      port: 6379
+      host: ${REDIS_HOST:blubug.me}
+      port: ${REDIS_PORT_AUTH:6379}
 
 #  security:
 #    user:
@@ -69,7 +69,7 @@ eureka:
 
 # JWT Configuration
 jwt:
-  secret: bWVnYVN1cGVyU2VjcmV0S2V5Rm9yQmFrZXJ5QXV0aFNlcnZpY2UyMDI1
+  secret: ${JWT_SECRET:bWVnYVN1cGVyU2VjcmV0S2V5Rm9yQmFrZXJ5QXV0aFNlcnZpY2UyMDI1}
   expiration: 86400000  # 24 hours in milliseconds
   refresh-expiration: 604800000  # 7 days in milliseconds
 
