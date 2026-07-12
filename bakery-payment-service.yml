@@ -1,4 +1,4 @@
-# Server Configuration
+﻿# Server Configuration
 server:
   port: 8085
 
@@ -135,7 +135,6 @@ payment:
 # External Service URLs
 external-services:
   order-service:
-    base-url: ${PRODUCT_SERVICE_URL:http://localhost:8084}
 
 # Logging Configuration
 logging:

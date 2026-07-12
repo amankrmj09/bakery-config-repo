@@ -1,4 +1,4 @@
-# Server Configuration
+﻿# Server Configuration
 server:
   port: 8083
 
@@ -103,7 +103,6 @@ product:
     low-stock-threshold: 10
     auto-disable-when-zero: true
   images:
-    base-url: "https://bakery-images.s3.amazonaws.com/"
     default-image: "default-product.jpg"
 
 aws:

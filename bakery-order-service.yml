@@ -1,4 +1,4 @@
-# Server Configuration
+﻿# Server Configuration
 server:
   port: 8084
 
@@ -105,9 +105,7 @@ order:
 # External Service URLs (for WebClient)
 external-services:
   auth-service:
-    base-url: ${AUTH_SERVICE_URL:http://localhost:8082}
   product-service:
-    base-url: ${CART_SERVICE_URL:http://localhost:8083}
 
 # Logging Configuration
 logging:
