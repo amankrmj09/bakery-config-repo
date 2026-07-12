@@ -1,15 +1,10 @@
-﻿# Server Configuration
+# Server Configuration
 server:
   port: 8082
 
 # Spring Application Configuration
 spring:
-
-  # PostgreSQL Database Configuration
   datasource:
-    url: ${AUTH_DB_URL:jdbc:postgresql://blubug.me:8001/bakery_auth}
-    username: ${AUTH_DB_USER:auth_user}
-    password: ${AUTH_DB_PASSWORD:auth_password}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
@@ -17,20 +12,17 @@ spring:
       idle-timeout: 300000
       connection-timeout: 20000
 
-  # JPA Configuration
   jpa:
     hibernate:
-      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
-        use_sql_comments: true
+        format_sql: false
+        use_sql_comments: false
 
-  # Jackson Configuration (for JSON handling)
   jackson:
     default-property-inclusion: NON_NULL
     serialization:
@@ -43,21 +35,9 @@ spring:
     compose:
       enabled: false
 
-  data:
-    redis:
-      host: ${REDIS_HOST:blubug.me}
-      port: ${REDIS_PORT_AUTH:6379}
-
-#  security:
-#    user:
-#      name: ""
-#      password: ""
-
 # Eureka Client Configuration
 eureka:
   client:
-    service-url:
-      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
     register-with-eureka: true
     fetch-registry: true
     enabled: true
@@ -69,7 +49,6 @@ eureka:
 
 # JWT Configuration
 jwt:
-  secret: ${JWT_SECRET:bWVnYVN1cGVyU2VjcmV0S2V5Rm9yQmFrZXJ5QXV0aFNlcnZpY2UyMDI1}
   expiration: 86400000  # 24 hours in milliseconds
   refresh-expiration: 604800000  # 7 days in milliseconds
 
@@ -86,10 +65,6 @@ management:
   metrics:
     tags:
       application: "${spring.application.name}"
-  # prometheus:
-  #   metrics:
-  #     export:
-  #       enabled: true
   info:
     env:
       enabled: true
@@ -113,7 +88,44 @@ security:
     max-attempts: 5
     lockout-duration: 300000  # 5 minutes in milliseconds
 
-# Logging Configuration
+# App Configuration
+app:
+  admin:
+    seed-enabled: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:postgresql://blubug.me:8001/bakery_auth
+    username: auth_user
+    password: auth_password
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+  data:
+    redis:
+      host: blubug.me
+      port: 6379
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+jwt:
+  secret: bWVnYVN1cGVyU2VjcmV0S2V5Rm9yQmFrZXJ5QXV0aFNlcnZpY2UyMDI1
+
 logging:
   level:
     com.shah_s.bakery_auth_service: DEBUG
@@ -128,15 +140,59 @@ logging:
   file:
     name: logs/auth-service.log
 
-# App Configuration
 app:
   admin:
-    seed-enabled: true
-    first-name: ${ADMIN_FIRST_NAME:Super}
-    last-name: ${ADMIN_LAST_NAME:Admin}
-    email: ${ADMIN_EMAIL:admin@bakery.com}
-    password: ${ADMIN_PASSWORD:Admin@123}
-    phone: ${ADMIN_PHONE:1234567890}
+    first-name: Super
+    last-name: Admin
+    email: admin@bakery.com
+    password: Admin@123
+    phone: 1234567890
 
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
 
+  datasource:
+    url: ${AUTH_DB_URL}
+    username: ${AUTH_DB_USER}
+    password: ${AUTH_DB_PASSWORD}
 
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT_AUTH}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}
+
+jwt:
+  secret: ${JWT_SECRET}
+
+logging:
+  level:
+    com.shah_s.bakery_auth_service: INFO
+    org.springframework.security: INFO
+    org.hibernate.SQL: INFO
+    org.springframework.web: INFO
+    root: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n"
+  file:
+    name: logs/auth-service.log
+
+app:
+  admin:
+    first-name: ${ADMIN_FIRST_NAME}
+    last-name: ${ADMIN_LAST_NAME}
+    email: ${ADMIN_EMAIL}
+    password: ${ADMIN_PASSWORD}
+    phone: ${ADMIN_PHONE}

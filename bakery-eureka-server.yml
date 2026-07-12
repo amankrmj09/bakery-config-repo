@@ -1,17 +1,13 @@
-﻿server:
+server:
   port: 8761
-
 
 # Eureka Server Configuration
 eureka:
   instance:
-    hostname: ${EUREKA_HOSTNAME:localhost}
     prefer-ip-address: false
   client:
     register-with-eureka: false
     fetch-registry: false
-    service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
   server:
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 4000
@@ -26,10 +22,6 @@ management:
   endpoint:
     health:
       show-details: always
-  # prometheus:
-  #   metrics:
-  #     export:
-  #       enabled: true
 
 # Logging Configuration
 logging:
@@ -40,6 +32,28 @@ logging:
   pattern:
     console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
 
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
 
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
 
+eureka:
+  instance:
+    hostname: ${EUREKA_HOSTNAME}
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/

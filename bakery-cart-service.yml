@@ -1,15 +1,10 @@
-﻿# Server Configuration
+# Server Configuration
 server:
   port: 8086
 
 # Spring Application Configuration
 spring:
-
-  # PostgreSQL Database Configuration
   datasource:
-    url: ${CART_DB_URL:jdbc:postgresql://blubug.me:8005/bakery_carts}
-    username: ${CART_DB_USER:cart_user}
-    password: ${CART_DB_PASSWORD:cart_password}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
@@ -21,38 +16,30 @@ spring:
       file: docker-compose-carts-db.yml
       enabled: false
 
-  # JPA Configuration
   jpa:
     hibernate:
-      ddl-auto: create-drop
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
-        use_sql_comments: true
+        format_sql: false
+        use_sql_comments: false
 
-  # Cache Configuration
   cache:
     type: redis
     redis:
       time-to-live: 600000  # 10 minutes
       cache-null-values: false
 
-  # Jackson Configuration
   jackson:
     default-property-inclusion: NON_NULL
     serialization:
       write-dates-as-timestamps: false
   data:
-
-    # Redis Configuration
     redis:
-      host: ${REDIS_HOST:blubug.me}
       timeout: 60000
-      port: ${REDIS_PORT_CART:6379}
       lettuce:
         pool:
           max-active: 10
@@ -63,8 +50,6 @@ spring:
 # Eureka Client Configuration
 eureka:
   client:
-    service-url:
-      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
     register-with-eureka: true
     fetch-registry: true
   instance:
@@ -95,31 +80,20 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
-  # prometheus:
-  #   metrics:
-  #     export:
-  #       enabled: true
 
 # Cart Service Specific Configuration
 cart:
-  # Cart expiration settings
   expiration:
     guest-cart-hours: 24          # Guest carts expire after 24 hours
     user-cart-days: 30            # User carts expire after 30 days
     cleanup-interval-hours: 6     # Clean up expired carts every 6 hours
-
-  # Cart limits
   limits:
     max-items-per-cart: 100       # Maximum items in a cart
     max-quantity-per-item: 50     # Maximum quantity for single item
     max-cart-value: 2000.00       # Maximum cart value
-
-  # Cache settings
   cache:
     cart-ttl-minutes: 30          # Cart cache TTL
     product-info-ttl-minutes: 10  # Product info cache TTL
-
-  # Validation settings
   validation:
     check-stock-on-add: true      # Check stock when adding items
     check-price-on-view: true     # Check prices when viewing cart
@@ -130,7 +104,36 @@ external-services:
   product-service:
   order-service:
 
-# Logging Configuration
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:postgresql://blubug.me:8005/bakery_carts
+    username: cart_user
+    password: cart_password
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+  data:
+    redis:
+      host: blubug.me
+      port: 6379
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
 logging:
   level:
     com.shah_s.bakery_cart_service: DEBUG
@@ -147,5 +150,43 @@ logging:
     max-size: 10MB
     max-history: 30
 
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
 
+  datasource:
+    url: ${CART_DB_URL}
+    username: ${CART_DB_USER}
+    password: ${CART_DB_PASSWORD}
 
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT_CART}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}
+
+logging:
+  level:
+    com.shah_s.bakery_cart_service: INFO
+    org.springframework.web: INFO
+    org.springframework.cache: INFO
+    org.springframework.data.redis: INFO
+    feign: INFO
+    root: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n"
+  file:
+    name: logs/cart-service.log
+    max-size: 10MB
+    max-history: 30

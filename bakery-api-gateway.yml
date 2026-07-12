@@ -1,4 +1,4 @@
-﻿# Server Configuration
+# Server Configuration
 server:
   port: 8080
 
@@ -62,29 +62,17 @@ spring:
                 - Path=/api/notifications/**
               filters:
                 - AuthenticationFilter
-            - id: gateway-health
-              uri: ${API_GATEWAY_URL:http://localhost:8080}
-              predicates:
-                - Path=/gateway/health
-              filters:
-                - RewritePath=/gateway/health,/actuator/health
-
-# JWT Configuration
-jwt:
-  secret: bWVnYVN1cGVyU2VjcmV0S2V5Rm9yQmFrZXJ5QXV0aFNlcnZpY2UyMDI1
 
 # Eureka Client Configuration
 eureka:
   client:
-    service-url:
-      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
     register-with-eureka: true
     fetch-registry: true
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
 
-# Management & Actuator Configuration (CORRECTED)
+# Management & Actuator Configuration
 management:
   info:
     env:
@@ -103,19 +91,6 @@ management:
       show-details: always
     gateway:
       access: unrestricted
-  # prometheus:
-  #   metrics:
-  #     export:
-  #       enabled: true
-
-# Logging Configuration
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG
-    com.shah_s.bakery_api_gateway: DEBUG
-    root: INFO
-  pattern:
-    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
 
 info:
   app:
@@ -126,5 +101,62 @@ info:
     version: '@project.version@'
     timestamp: '@timestamp@'
 
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
 
+jwt:
+  secret: bWVnYVN1cGVyU2VjcmV0S2V5Rm9yQmFrZXJ5QXV0aFNlcnZpY2UyMDI1
 
+spring.cloud.gateway.routes:
+  - id: gateway-health
+    uri: http://localhost:8080
+    predicates:
+      - Path=/gateway/health
+    filters:
+      - RewritePath=/gateway/health,/actuator/health
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    com.shah_s.bakery_api_gateway: DEBUG
+    root: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+jwt:
+  secret: ${JWT_SECRET}
+
+spring.cloud.gateway.routes:
+  - id: gateway-health
+    uri: ${API_GATEWAY_URL}
+    predicates:
+      - Path=/gateway/health
+    filters:
+      - RewritePath=/gateway/health,/actuator/health
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+    com.shah_s.bakery_api_gateway: INFO
+    root: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"

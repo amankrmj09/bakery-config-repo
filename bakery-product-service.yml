@@ -4,12 +4,7 @@ server:
 
 # Spring Application Configuration
 spring:
-
-  # PostgreSQL Database Configuration
   datasource:
-    url: ${PRODUCT_DB_URL:jdbc:postgresql://blubug.me:8002/bakery_products}
-    username: ${PRODUCT_DB_USER:product_user}
-    password: ${PRODUCT_DB_PASSWORD:product_password}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
@@ -17,28 +12,18 @@ spring:
       idle-timeout: 300000
       connection-timeout: 20000
 
-  # JPA Configuration
   jpa:
     hibernate:
-      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-        use_sql_comments: true
 
-  # Jackson Configuration
   jackson:
     default-property-inclusion: NON_NULL
     serialization:
       write-dates-as-timestamps: false
 
-  # Kafka Configuration
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -51,10 +36,6 @@ spring:
         spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
         spring.json.trusted.packages: "org.devofblue.common.event"
 
-  # Elasticsearch Configuration
-  elasticsearch:
-    uris: ${ELASTICSEARCH_URIS:http://localhost:9200}
-
   docker:
     compose:
       file: docker-compose-products-db.yml
@@ -62,15 +43,16 @@ spring:
 
   data:
     redis:
-      host: ${REDIS_HOST:blubug.me}
-      port: ${REDIS_PORT_PRODUCT:6380}
       timeout: 60000
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 # Eureka Client Configuration
 eureka:
   client:
-    service-url:
-      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
     register-with-eureka: true
     fetch-registry: true
   instance:
@@ -92,10 +74,6 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
-  # prometheus:
-  #   metrics:
-  #     export:
-  #       enabled: true
 
 # Product Service Specific Configuration
 product:
@@ -107,16 +85,49 @@ product:
 
 r2:
   bucket: bakery
-  endpoint: ${R2_ENDPOINT:https://59ff51457eb45453daa57ffa1f4a20bd.r2.cloudflarestorage.com}
-  cdn-base-url: ${R2_CDN_URL:https://pub-49a69af59fc44431a21809176dd88bb8.r2.dev}
-  access-key: ${R2_ACCESS_KEY:ad4653738654f9f0e8baf193fd9af2a3}
-  secret-key: ${R2_SECRET_KEY:a64f372de305f1e9bc8f94c84209ee8098383f81bf333dbb21e7b534d554935b}
 
-spring.servlet.multipart:
-  max-file-size: 10MB
-  max-request-size: 10MB
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
 
-# Logging Configuration
+  datasource:
+    url: jdbc:postgresql://blubug.me:8002/bakery_products
+    username: product_user
+    password: product_password
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+  elasticsearch:
+    uris: http://localhost:9200
+
+  data:
+    redis:
+      host: blubug.me
+      port: 6380
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+r2:
+  endpoint: https://59ff51457eb45453daa57ffa1f4a20bd.r2.cloudflarestorage.com
+  cdn-base-url: https://pub-49a69af59fc44431a21809176dd88bb8.r2.dev
+  access-key: ad4653738654f9f0e8baf193fd9af2a3
+  secret-key: a64f372de305f1e9bc8f94c84209ee8098383f81bf333dbb21e7b534d554935b
+
 logging:
   level:
     com.shah_s.bakery_product_service: DEBUG
@@ -134,5 +145,60 @@ logging:
       max-file-size: 10MB
       max-history: 30
 
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
 
+  datasource:
+    url: ${PRODUCT_DB_URL}
+    username: ${PRODUCT_DB_USER}
+    password: ${PRODUCT_DB_PASSWORD}
 
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        use_sql_comments: false
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URIS}
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT_PRODUCT}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}
+
+r2:
+  endpoint: ${R2_ENDPOINT}
+  cdn-base-url: ${R2_CDN_URL}
+  access-key: ${R2_ACCESS_KEY}
+  secret-key: ${R2_SECRET_KEY}
+
+logging:
+  level:
+    com.shah_s.bakery_product_service: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: INFO
+    root: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n"
+  file:
+    name: logs/product-service.log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 30
