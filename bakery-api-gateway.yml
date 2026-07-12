@@ -35,7 +35,7 @@ spring:
             - id: product-service
               uri: lb://bakery-product-service
               predicates:
-                - Path=/api/categories/**,/api/products/**,/api/inventory/**,/api/uploads/**
+                - Path=/api/categories/**,/api/products/**,/api/inventory/**,/api/uploads/**,/api/site-config/**
               filters:
                 - AuthenticationFilter
             - id: order-service
