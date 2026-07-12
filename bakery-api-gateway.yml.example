@@ -1,0 +1,162 @@
+# Server Configuration
+server:
+  port: 8080
+
+# Spring Application Configuration
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              lower-case-service-id: true
+              enabled: true
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowedOriginPatterns: "*"
+                allowedMethods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - OPTIONS
+                  - PATCH
+                allowedHeaders: "*"
+                allowCredentials: true
+          default-filters:
+            - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+          routes:
+            - id: auth-service
+              uri: lb://bakery-auth-service
+              predicates:
+                - Path=/api/auth/**,/api/users/**
+            - id: product-service
+              uri: lb://bakery-product-service
+              predicates:
+                - Path=/api/categories/**,/api/products/**,/api/inventory/**,/api/uploads/**,/api/site-config/**
+              filters:
+                - AuthenticationFilter
+            - id: order-service
+              uri: lb://bakery-order-service
+              predicates:
+                - Path=/api/orders/**
+              filters:
+                - AuthenticationFilter
+            - id: payment-service
+              uri: lb://bakery-payment-service
+              predicates:
+                - Path=/api/payments/**,/api/refunds/**,/api/transactions/**
+              filters:
+                - AuthenticationFilter
+            - id: cart-service
+              uri: lb://bakery-cart-service
+              predicates:
+                - Path=/api/carts/**,/api/cart-items/**
+              filters:
+                - AuthenticationFilter
+            - id: notification-service
+              uri: lb://bakery-notification-service
+              predicates:
+                - Path=/api/notifications/**
+              filters:
+                - AuthenticationFilter
+
+# Eureka Client Configuration
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+
+# Management & Actuator Configuration
+management:
+  info:
+    env:
+      enabled: true
+    build:
+      enabled: true
+    git:
+      mode: full
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # Expose all endpoints
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+    gateway:
+      access: unrestricted
+
+info:
+  app:
+    name: Bakery API Gateway
+    description: Central gateway for bakery microservices
+    version: 1.0.0
+  build:
+    version: '@project.version@'
+    timestamp: '@timestamp@'
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+jwt:
+  secret: your_jwt_secret
+
+spring.cloud.gateway.routes:
+  - id: gateway-health
+    uri: http://localhost:8080
+    predicates:
+      - Path=/gateway/health
+    filters:
+      - RewritePath=/gateway/health,/actuator/health
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    com.shah_s.bakery_api_gateway: DEBUG
+    root: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+jwt:
+  secret: your_jwt_secret
+
+spring.cloud.gateway.routes:
+  - id: gateway-health
+    uri: ${API_GATEWAY_URL}
+    predicates:
+      - Path=/gateway/health
+    filters:
+      - RewritePath=/gateway/health,/actuator/health
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+    com.shah_s.bakery_api_gateway: INFO
+    root: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"

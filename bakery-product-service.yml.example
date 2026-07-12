@@ -1,0 +1,204 @@
+# Server Configuration
+server:
+  port: 8083
+
+# Spring Application Configuration
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000
+      connection-timeout: 20000
+
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  jackson:
+    default-property-inclusion: NON_NULL
+    serialization:
+      write-dates-as-timestamps: false
+
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: product-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        spring.json.trusted.packages: "org.devofblue.common.event"
+
+  docker:
+    compose:
+      file: docker-compose-products-db.yml
+      enabled: false
+
+  data:
+    redis:
+      timeout: 60000
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+# Eureka Client Configuration
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+
+# Management & Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, refresh
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+# Product Service Specific Configuration
+product:
+  inventory:
+    low-stock-threshold: 10
+    auto-disable-when-zero: true
+  images:
+    default-image: "default-product.jpg"
+
+r2:
+  bucket: bakery
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:postgresql://your-db-host:5432/bakery_products
+    username: your_db_user
+    password: your_db_password
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+  elasticsearch:
+    uris: http://localhost:9200
+
+  data:
+    redis:
+      host: your-redis-host
+      port: 6379
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+r2:
+  endpoint: https://59ff51457eb45453daa57ffa1f4a20bd.r2.cloudflarestorage.com
+  cdn-base-url: https://pub-49a69af59fc44431a21809176dd88bb8.r2.dev
+  access-key: your_access_key
+  secret-key: your_secret_key
+
+logging:
+  level:
+    com.shah_s.bakery_product_service: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    root: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n"
+  file:
+    name: logs/product-service.log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 30
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: ${PRODUCT_DB_URL}
+    username: your_db_user
+    password: your_db_password
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        use_sql_comments: false
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URIS}
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT_PRODUCT}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL}
+
+r2:
+  endpoint: ${R2_ENDPOINT}
+  cdn-base-url: ${R2_CDN_URL}
+  access-key: your_access_key
+  secret-key: your_secret_key
+
+logging:
+  level:
+    com.shah_s.bakery_product_service: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: INFO
+    root: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n"
+  file:
+    name: logs/product-service.log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 30
