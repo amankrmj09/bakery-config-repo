@@ -1,4 +1,4 @@
-﻿# Server Configuration
+# Server Configuration
 server:
   port: 8087
 
@@ -142,6 +142,10 @@ aws:
     general-topic-arn: ${AWS_SNS_GENERAL_TOPIC_ARN:arn:aws:sns:us-east-1:123456789:bakery-general-notifications}
     marketing-topic-arn: ${AWS_SNS_MARKETING_TOPIC_ARN:arn:aws:sns:us-east-1:123456789:bakery-marketing}
     orders-topic-arn: ${AWS_SNS_ORDERS_TOPIC_ARN:arn:aws:sns:us-east-1:123456789:bakery-orders}
+
+# Brevo Configuration
+brevo:
+  api-key: ${BREVO_API_KEY:your-brevo-api-key}
 
 # Notification Service Specific Configuration
 notification:
