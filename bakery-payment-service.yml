@@ -62,7 +62,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
     register-with-eureka: true
     fetch-registry: true
   instance:
@@ -135,7 +135,7 @@ payment:
 # External Service URLs
 external-services:
   order-service:
-    base-url: http://localhost:8084
+    base-url: ${PRODUCT_SERVICE_URL:http://localhost:8084}
 
 # Logging Configuration
 logging:
@@ -155,4 +155,6 @@ logging:
     rollingpolicy:
       max-file-size: 10MB
       max-history: 30
+
+
 

@@ -5,7 +5,7 @@ server:
 # Eureka Server Configuration
 eureka:
   instance:
-    hostname: localhost
+    hostname: ${EUREKA_HOSTNAME:localhost}
     prefer-ip-address: false
   client:
     register-with-eureka: false
@@ -39,4 +39,7 @@ logging:
     root: INFO
   pattern:
     console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+
+
 

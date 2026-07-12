@@ -64,7 +64,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
     register-with-eureka: true
     fetch-registry: true
   instance:
@@ -128,9 +128,9 @@ cart:
 # External Service URLs
 external-services:
   product-service:
-    base-url: http://localhost:8083
+    base-url: ${CART_SERVICE_URL:http://localhost:8083}
   order-service:
-    base-url: http://localhost:8084
+    base-url: ${PRODUCT_SERVICE_URL:http://localhost:8084}
 
 # Logging Configuration
 logging:
@@ -148,4 +148,6 @@ logging:
     name: logs/cart-service.log
     max-size: 10MB
     max-history: 30
+
+
 
