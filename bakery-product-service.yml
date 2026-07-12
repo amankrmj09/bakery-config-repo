@@ -1,4 +1,4 @@
-﻿# Server Configuration
+# Server Configuration
 server:
   port: 8083
 
@@ -105,15 +105,12 @@ product:
   images:
     default-image: "default-product.jpg"
 
-aws:
-  region: auto
-  s3:
-    bucket-name: bakery
-    endpoint: ${AWS_S3_ENDPOINT:https://59ff51457eb45453daa57ffa1f4a20bd.r2.cloudflarestorage.com}
-    public-url: ${AWS_S3_PUBLIC_URL:https://pub-49a69af59fc44431a21809176dd88bb8.r2.dev}
-  credentials:
-    access-key: ${AWS_ACCESS_KEY:ad4653738654f9f0e8baf193fd9af2a3}
-    secret-key: ${AWS_SECRET_KEY:a64f372de305f1e9bc8f94c84209ee8098383f81bf333dbb21e7b534d554935b}
+r2:
+  bucket: bakery
+  endpoint: ${R2_ENDPOINT:https://59ff51457eb45453daa57ffa1f4a20bd.r2.cloudflarestorage.com}
+  cdn-base-url: ${R2_CDN_URL:https://pub-49a69af59fc44431a21809176dd88bb8.r2.dev}
+  access-key: ${R2_ACCESS_KEY:ad4653738654f9f0e8baf193fd9af2a3}
+  secret-key: ${R2_SECRET_KEY:a64f372de305f1e9bc8f94c84209ee8098383f81bf333dbb21e7b534d554935b}
 
 spring.servlet.multipart:
   max-file-size: 10MB
