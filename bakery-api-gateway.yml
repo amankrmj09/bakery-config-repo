@@ -9,6 +9,57 @@ management:
     health:
       show-details: always
 
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
+          routes:
+            - id: auth-service
+              uri: lb://bakery-auth-service
+              predicates:
+                - Path=/api/auth/**,/api/users/**
+            - id: product-service
+              uri: lb://bakery-product-service
+              predicates:
+                - Path=/api/categories/**,/api/products/**,/api/inventory/**,/api/uploads/**,/api/site-config/**
+              filters:
+                - AuthenticationFilter
+            - id: order-service
+              uri: lb://bakery-order-service
+              predicates:
+                - Path=/api/orders/**
+              filters:
+                - AuthenticationFilter
+            - id: payment-service
+              uri: lb://bakery-payment-service
+              predicates:
+                - Path=/api/payments/**,/api/refunds/**,/api/transactions/**
+              filters:
+                - AuthenticationFilter
+            - id: cart-service
+              uri: lb://bakery-cart-service
+              predicates:
+                - Path=/api/carts/**,/api/cart-items/**
+              filters:
+                - AuthenticationFilter
+            - id: notification-service
+              uri: lb://bakery-notification-service
+              predicates:
+                - Path=/api/notifications/**
+              filters:
+                - AuthenticationFilter
+            - id: gateway-health
+              uri: http://localhost:8080
+              predicates:
+                - Path=/gateway/health
+              filters:
+                - RewritePath=/gateway/health,/actuator/health
+
 logging:
   level:
     org.springframework.cloud.gateway: INFO
