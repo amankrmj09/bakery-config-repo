@@ -1,0 +1,43 @@
+
+jwt:
+  expiration: 86400000
+  refresh-expiration: 604800000
+
+security:
+  password:
+    strength: 10
+  login:
+    max-attempts: 5
+    lockout-duration: 300000
+
+app:
+  admin:
+    seed-enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,refresh
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.shah_s.bakery_auth_service: INFO
+    org.springframework.security: INFO
+    org.springframework.web: INFO
+    root: INFO
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+logging:
+  level:
+    com.shah_s.bakery_auth_service: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG

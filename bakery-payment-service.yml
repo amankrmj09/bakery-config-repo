@@ -1,0 +1,48 @@
+
+payment:
+  gateways:
+    stripe:
+      enabled: false
+    paypal:
+      enabled: false
+      environment: sandbox
+    square:
+      enabled: false
+      environment: sandbox
+  limits:
+    min-amount: 0.50
+    max-amount: 10000.00
+    daily-limit: 50000.00
+  retry:
+    max-attempts: 3
+    initial-delay: 1000
+    max-delay: 10000
+  webhook:
+    timeout-seconds: 30
+    max-retries: 5
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,refresh
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.shah_s.bakery_payment_service: INFO
+    org.springframework.web: INFO
+    root: INFO
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+logging:
+  level:
+    com.shah_s.bakery_payment_service: DEBUG
+    org.springframework.web: DEBUG

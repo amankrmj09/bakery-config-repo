@@ -1,0 +1,38 @@
+
+order:
+  delivery:
+    default-time-minutes: 60
+    max-time-minutes: 180
+  limits:
+    max-items-per-order: 50
+    max-order-value: 500.00
+  tax:
+    rate: 0.08
+  discount:
+    max-percentage: 30
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,refresh
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.shah_s.bakery_order_service: INFO
+    org.springframework.web: INFO
+    root: INFO
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+logging:
+  level:
+    com.shah_s.bakery_order_service: DEBUG
+    org.springframework.web: DEBUG

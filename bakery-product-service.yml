@@ -1,0 +1,33 @@
+
+product:
+  inventory:
+    low-stock-threshold: 10
+    auto-disable-when-zero: true
+  images:
+    default-image: "default-product.jpg"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,refresh
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.shah_s.bakery_product_service: INFO
+    org.springframework.web: INFO
+    root: INFO
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+logging:
+  level:
+    com.shah_s.bakery_product_service: DEBUG
+    org.springframework.web: DEBUG

@@ -68,7 +68,4 @@ gen
 *.log
 *.gz
 
-# Ignore config files but keep examples
-*.yml
-*.yaml
-!*.example
+
