@@ -33,6 +33,10 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: "org.devofblue.common.event.*"
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URIS}
+    username: elastic
+    password: ${ELASTIC_PASSWORD}
 
 ---
 spring:
