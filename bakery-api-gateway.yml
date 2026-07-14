@@ -12,6 +12,8 @@ management:
 spring:
   cloud:
     gateway:
+      default-filters:
+        - RewritePath=(?<segment>.*[^/])/+$, $\{segment}
       server:
         webflux:
           discovery:
