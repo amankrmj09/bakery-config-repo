@@ -22,7 +22,7 @@ spring:
             - id: auth-service
               uri: lb://bakery-auth-service
               predicates:
-                - Path=/api/auth/**,/api/users/**
+                - Path=/api/auth/**,/api/users/**,/api/store/**
               filters:
                 - AuthenticationFilter
             - id: product-service
