@@ -28,6 +28,13 @@ logging:
     org.springframework.web: INFO
     root: INFO
 
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+
 ---
 spring:
   config:
