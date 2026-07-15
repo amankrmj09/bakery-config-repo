@@ -10,6 +10,10 @@ management:
       show-details: always
 
 spring:
+  data:
+    redis:
+      host: redis-gateway
+      port: 6379
   cloud:
     gateway:
       default-filters:
@@ -27,42 +31,61 @@ spring:
                 - Path=/api/auth/**,/api/users/**,/api/store/**
               filters:
                 - AuthenticationFilter
+                - name: RequestRateLimiter
+                  args:
+                    redis-rate-limiter.replenishRate: 10
+                    redis-rate-limiter.burstCapacity: 20
             - id: product-service
               uri: lb://bakery-product-service
               predicates:
                 - Path=/api/categories/**,/api/products/**,/api/inventory/**,/api/uploads/**,/api/site-config/**
               filters:
                 - AuthenticationFilter
+                - name: RequestRateLimiter
+                  args:
+                    redis-rate-limiter.replenishRate: 10
+                    redis-rate-limiter.burstCapacity: 20
             - id: order-service
               uri: lb://bakery-order-service
               predicates:
                 - Path=/api/orders/**
               filters:
                 - AuthenticationFilter
+                - name: RequestRateLimiter
+                  args:
+                    redis-rate-limiter.replenishRate: 10
+                    redis-rate-limiter.burstCapacity: 20
             - id: payment-service
               uri: lb://bakery-payment-service
               predicates:
                 - Path=/api/payments/**,/api/refunds/**,/api/transactions/**
               filters:
                 - AuthenticationFilter
+                - name: RequestRateLimiter
+                  args:
+                    redis-rate-limiter.replenishRate: 10
+                    redis-rate-limiter.burstCapacity: 20
             - id: cart-service
               uri: lb://bakery-cart-service
               predicates:
                 - Path=/api/carts/**,/api/cart-items/**
               filters:
                 - AuthenticationFilter
+                - name: RequestRateLimiter
+                  args:
+                    redis-rate-limiter.replenishRate: 10
+                    redis-rate-limiter.burstCapacity: 20
             - id: notification-service
               uri: lb://bakery-notification-service
               predicates:
                 - Path=/api/notifications/**
               filters:
                 - AuthenticationFilter
-            - id: gateway-health
-              uri: http://localhost:8080
-              predicates:
-                - Path=/gateway/health
-              filters:
-                - RewritePath=/gateway/health,/actuator/health
+                - name: RequestRateLimiter
+                  args:
+                    redis-rate-limiter.replenishRate: 10
+                    redis-rate-limiter.burstCapacity: 20
+
 
 logging:
   level:
