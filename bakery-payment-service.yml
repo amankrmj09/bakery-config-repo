@@ -50,6 +50,7 @@ spring:
       properties:
         spring.json.trusted.packages: "org.devofblue.common.event.*"
   
+kafka:
   topic:
     payment-events: payment-events
     payment-requests: payment-requests
