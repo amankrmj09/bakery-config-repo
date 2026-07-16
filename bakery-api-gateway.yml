@@ -1,4 +1,12 @@
 
+springdoc:
+  swagger-ui:
+    urls:
+      - name: Auth Service
+        url: /v3/api-docs/auth
+      - name: Cart Service
+        url: /v3/api-docs/cart
+
 management:
   endpoints:
     web:
@@ -25,6 +33,18 @@ spring:
               enabled: false
               lower-case-service-id: true
           routes:
+            - id: auth-service-openapi
+              uri: lb://bakery-auth-service
+              predicates:
+                - Path=/v3/api-docs/auth
+              filters:
+                - RewritePath=/v3/api-docs/auth, /v3/api-docs
+            - id: cart-service-openapi
+              uri: lb://bakery-cart-service
+              predicates:
+                - Path=/v3/api-docs/cart
+              filters:
+                - RewritePath=/v3/api-docs/cart, /v3/api-docs
             - id: auth-service
               uri: lb://bakery-auth-service
               predicates:

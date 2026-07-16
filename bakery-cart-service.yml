@@ -1,4 +1,7 @@
 
+server:
+  forward-headers-strategy: framework
+
 cart:
   limits:
     max-items-per-cart: 50
