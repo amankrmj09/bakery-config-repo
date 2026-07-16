@@ -21,7 +21,7 @@ management:
 
 logging:
   level:
-    com.shah_s.bakery_eureka_server: INFO
+    com.blubugtech.bakery_eureka_server: INFO
     root: INFO
 
 ---
@@ -31,4 +31,4 @@ spring:
       on-profile: dev
 logging:
   level:
-    com.shah_s.bakery_eureka_server: DEBUG
+    com.blubugtech.bakery_eureka_server: DEBUG

@@ -18,7 +18,7 @@ management:
 
 logging:
   level:
-    com.shah_s.bakery_product_service: INFO
+    com.blubugtech.bakery_product_service: INFO
     org.springframework.web: INFO
     root: INFO
 
@@ -31,7 +31,7 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: "org.devofblue.common.event.*"
+        spring.json.trusted.packages: "com.blubugtech.common.event.*"
 
 ---
 spring:
@@ -40,5 +40,5 @@ spring:
       on-profile: dev
 logging:
   level:
-    com.shah_s.bakery_product_service: DEBUG
+    com.blubugtech.bakery_product_service: DEBUG
     org.springframework.web: DEBUG

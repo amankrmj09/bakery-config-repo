@@ -24,7 +24,7 @@ management:
 
 logging:
   level:
-    com.shah_s.bakery_cart_service: INFO
+    com.blubugtech.bakery_cart_service: INFO
     org.springframework.web: INFO
     root: INFO
 
@@ -47,5 +47,5 @@ spring:
         format_sql: true
 logging:
   level:
-    com.shah_s.bakery_cart_service: DEBUG
+    com.blubugtech.bakery_cart_service: DEBUG
     org.springframework.web: DEBUG

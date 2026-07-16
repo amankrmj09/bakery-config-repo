@@ -20,7 +20,7 @@ management:
 
 logging:
   level:
-    com.shah_s.bakery_notification_service: INFO
+    com.blubugtech.bakery_notification_service: INFO
     org.springframework.mail: INFO
     root: INFO
 
@@ -35,7 +35,7 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: "org.devofblue.common.event.*"
+        spring.json.trusted.packages: "com.blubugtech.common.event.*"
   
 kafka:
   topic:
@@ -63,5 +63,5 @@ spring:
         format_sql: true
 logging:
   level:
-    com.shah_s.bakery_notification_service: DEBUG
+    com.blubugtech.bakery_notification_service: DEBUG
     org.springframework.mail: DEBUG
