@@ -6,6 +6,14 @@ springdoc:
         url: /docs/auth
       - name: Cart Service
         url: /docs/cart
+      - name: Product Service
+        url: /docs/product
+      - name: Order Service
+        url: /docs/order
+      - name: Payment Service
+        url: /docs/payment
+      - name: Notification Service
+        url: /docs/notification
 
 management:
   endpoints:
@@ -45,6 +53,30 @@ spring:
                 - Path=/docs/cart
               filters:
                 - RewritePath=/docs/cart, /v3/api-docs
+            - id: product-service-openapi
+              uri: lb://bakery-product-service
+              predicates:
+                - Path=/docs/product
+              filters:
+                - RewritePath=/docs/product, /v3/api-docs
+            - id: order-service-openapi
+              uri: lb://bakery-order-service
+              predicates:
+                - Path=/docs/order
+              filters:
+                - RewritePath=/docs/order, /v3/api-docs
+            - id: payment-service-openapi
+              uri: lb://bakery-payment-service
+              predicates:
+                - Path=/docs/payment
+              filters:
+                - RewritePath=/docs/payment, /v3/api-docs
+            - id: notification-service-openapi
+              uri: lb://bakery-notification-service
+              predicates:
+                - Path=/docs/notification
+              filters:
+                - RewritePath=/docs/notification, /v3/api-docs
             - id: auth-service
               uri: lb://bakery-auth-service
               predicates:
