@@ -90,7 +90,7 @@ spring:
             - id: product-service
               uri: lb://bakery-product-service
               predicates:
-                - Path=/api/categories/**,/api/products/**,/api/inventory/**,/api/uploads/**,/api/site-config/**
+                - Path=/api/categories/**,/api/products/**,/api/inventory/**,/api/uploads/**,/api/storefront/**
               filters:
                 - AuthenticationFilter
                 - name: RequestRateLimiter
@@ -154,3 +154,4 @@ logging:
     org.springframework.cloud.gateway: DEBUG
     org.springframework.http.server.reactive: DEBUG
     org.springframework.web.reactive: DEBUG
+
