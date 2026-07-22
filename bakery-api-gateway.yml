@@ -26,6 +26,8 @@ management:
       show-details: always
 
 spring:
+  codec:
+    max-in-memory-size: 55MB
   data:
     redis:
       host: redis-gateway
