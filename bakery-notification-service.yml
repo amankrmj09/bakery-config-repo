@@ -45,11 +45,21 @@ kafka:
 
 brevo:
   templates:
-    transaction: ${BREVO_TEMPLATE_TRANSACTION:1}
-    order: ${BREVO_TEMPLATE_ORDER:2}
-    payment: ${BREVO_TEMPLATE_PAYMENT:3}
-    welcome: ${BREVO_TEMPLATE_WELCOME:4}
-    password-change: ${BREVO_TEMPLATE_PASSWORD_CHANGE:5}
+    auth:
+      welcome: ${TEMPLATE_AUTH_WELCOME:1}
+      otp: ${TEMPLATE_AUTH_OTP:2}
+      passwordChange: ${TEMPLATE_AUTH_PASSWORD_CHANGE:3}
+      newSignIn: ${TEMPLATE_AUTH_NEW_SIGN_IN:4}
+    order:
+      confirmation: ${TEMPLATE_ORDER_CONFIRMATION:5}
+      invoice: ${TEMPLATE_ORDER_INVOICE:6}
+      delivery: ${TEMPLATE_ORDER_DELIVERY:7}
+    payment:
+      success: ${TEMPLATE_PAYMENT_SUCCESS:8}
+      refund: ${TEMPLATE_PAYMENT_REFUND:9}
+    feedback:
+      general: ${TEMPLATE_FEEDBACK_GENERAL:10}
+      review: ${TEMPLATE_FEEDBACK_REVIEW:11}
 
 ---
 spring:
