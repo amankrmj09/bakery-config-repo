@@ -35,6 +35,10 @@ logging:
     root: INFO
 
 spring:
+  data:
+    redis:
+      host: ${REDIS_HOST:redis-gateway}
+      port: ${REDIS_PORT:6379}
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:29092}
     producer:
