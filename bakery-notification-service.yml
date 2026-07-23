@@ -47,8 +47,8 @@ brevo:
   templates:
     auth:
       welcome: ${TEMPLATE_AUTH_WELCOME:1}
-      otp: ${TEMPLATE_AUTH_OTP:2}
-      passwordChange: ${TEMPLATE_AUTH_PASSWORD_CHANGE:3}
+      otp: ${TEMPLATE_AUTH_OTP:3}
+      passwordChange: ${TEMPLATE_AUTH_PASSWORD_CHANGE:2}
       newSignIn: ${TEMPLATE_AUTH_NEW_SIGN_IN:4}
     order:
       confirmation: ${TEMPLATE_ORDER_CONFIRMATION:5}
