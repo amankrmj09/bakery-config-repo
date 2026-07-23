@@ -58,6 +58,7 @@ kafka:
   topic:
     payment-events: payment-events
     payment-requests: payment-requests
+    order-events: bakery-order-events
 
 feign:
   client:
