@@ -1,0 +1,42 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,refresh
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.blubugtech.bakery_engagement_service: INFO
+    org.springframework.web: INFO
+    root: INFO
+
+spring:
+  data:
+    mongodb:
+      uri: ${ENGAGEMENT_DB_URL:mongodb://localhost:27017/bakery_engagement}
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URIS:http://localhost:9200}
+    password: ${ELASTIC_PASSWORD:changeme}
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.blubugtech.*"
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+logging:
+  level:
+    com.blubugtech.bakery_engagement_service: DEBUG
+    org.springframework.web: DEBUG

@@ -14,6 +14,8 @@ springdoc:
         url: /docs/payment
       - name: Notification Service
         url: /docs/notification
+      - name: Engagement Service
+        url: /docs/engagement
 
 management:
   endpoints:
@@ -133,6 +135,22 @@ spring:
               uri: lb://bakery-notification-service
               predicates:
                 - Path=/api/notifications/**
+              filters:
+                - AuthenticationFilter
+                - name: RequestRateLimiter
+                  args:
+                    redis-rate-limiter.replenishRate: 10
+                    redis-rate-limiter.burstCapacity: 20
+            - id: engagement-service-openapi
+              uri: lb://bakery-engagement-service
+              predicates:
+                - Path=/docs/engagement
+              filters:
+                - RewritePath=/docs/engagement, /v3/api-docs
+            - id: engagement-service
+              uri: lb://bakery-engagement-service
+              predicates:
+                - Path=/api/v1/engagement/**
               filters:
                 - AuthenticationFilter
                 - name: RequestRateLimiter
