@@ -60,6 +60,8 @@ brevo:
     feedback:
       general: ${TEMPLATE_FEEDBACK_GENERAL:10}
       review: ${TEMPLATE_FEEDBACK_REVIEW:11}
+      testimonial: ${TEMPLATE_FEEDBACK_TESTIMONIAL:12}
+      contactUs: ${TEMPLATE_FEEDBACK_CONTACT_US:13}
 
 ---
 spring:
