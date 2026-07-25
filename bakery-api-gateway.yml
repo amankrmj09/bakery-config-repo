@@ -94,7 +94,7 @@ spring:
             - id: product-service
               uri: lb://bakery-product-service
               predicates:
-                - Path=/api/categories/**,/api/products/**,/api/inventory/**,/api/uploads/**,/api/storefront/**
+                - Path=/api/categories/**,/api/products/**,/api/inventory/**,/api/uploads/**,/api/storefront/**,/api/taxes/**
               filters:
                 - AuthenticationFilter
                 - name: RequestRateLimiter
