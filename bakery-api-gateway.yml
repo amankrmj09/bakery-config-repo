@@ -91,6 +91,17 @@ spring:
                   args:
                     redis-rate-limiter.replenishRate: 10
                     redis-rate-limiter.burstCapacity: 20
+            - id: product-reviews-legacy
+              uri: lb://bakery-engagement-service
+              predicates:
+                - Path=/api/products/*/reviews/**
+              filters:
+                - RewritePath=/api/products/(?<segment>.*)/reviews(?<remaining>.*), /api/v1/engagement/reviews/product/$\{segment}$\{remaining}
+                - AuthenticationFilter
+                - name: RequestRateLimiter
+                  args:
+                    redis-rate-limiter.replenishRate: 10
+                    redis-rate-limiter.burstCapacity: 20
             - id: product-service
               uri: lb://bakery-product-service
               predicates:
