@@ -54,6 +54,7 @@ brevo:
       confirmation: ${TEMPLATE_ORDER_CONFIRMATION:5}
       invoice: ${TEMPLATE_ORDER_INVOICE:6}
       delivery: ${TEMPLATE_ORDER_DELIVERY:7}
+      adminCancelled: ${TEMPLATE_ORDER_ADMIN_CANCELLED:14}
     payment:
       success: ${TEMPLATE_PAYMENT_SUCCESS:8}
       refund: ${TEMPLATE_PAYMENT_REFUND:9}
