@@ -64,6 +64,11 @@ brevo:
       review: ${TEMPLATE_FEEDBACK_REVIEW:11}
       testimonial: ${TEMPLATE_FEEDBACK_TESTIMONIAL:12}
       contactUs: ${TEMPLATE_FEEDBACK_CONTACT_US:13}
+    admin:
+      newOrder: ${TEMPLATE_ADMIN_NEW_ORDER:15}
+      paymentReceived: ${TEMPLATE_ADMIN_PAYMENT_RECEIVED:16}
+      userCancelledOrder: ${TEMPLATE_ADMIN_USER_CANCELLED:17}
+      newUserRegistration: ${TEMPLATE_ADMIN_NEW_USER:18}
 
 ---
 spring:
