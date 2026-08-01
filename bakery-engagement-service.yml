@@ -17,7 +17,7 @@ logging:
 spring:
   data:
     mongodb:
-      uri: ${ENGAGEMENT_DB_URL:mongodb://localhost:27017/bakery_engagement}
+      uri: ${ENGAGEMENT_DB_URL:mongodb://mongodb:27017/bakery_engagement}
   elasticsearch:
     uris: ${ELASTICSEARCH_URIS:http://localhost:9200}
     username: ${ELASTIC_USERNAME:elastic}
