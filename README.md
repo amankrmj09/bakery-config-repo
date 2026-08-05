@@ -69,8 +69,6 @@ When a new microservice is created or a new environment is introduced, you will 
 
 
 ## 🔗 Related Links
-- [Parent Repository](https://github.com/amankrmj09/Blu_s_Bakery)
-- [API Reference](./API_REFERENCE.md)
 
----
-*Note: Always ensure that sensitive information (like database passwords or API keys) is encrypted using Spring Cloud Config's encryption features or externalized to a secure vault, rather than being stored in plain text within these YAML files.*
+*For overall architecture, contribution guidelines, and security policies, please refer to the main [Blu's Bakery](https://github.com/amankrmj09/Blu_s_Bakery) repository.*
+
