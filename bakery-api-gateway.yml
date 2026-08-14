@@ -33,8 +33,8 @@ spring:
       max-in-memory-size: 55MB
   data:
     redis:
-      host: redis-gateway
-      port: 6379
+      host: ${REDIS_HOST:redis-gateway}
+      port: ${REDIS_PORT:6379}
   cloud:
     gateway:
       server:

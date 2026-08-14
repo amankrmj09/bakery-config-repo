@@ -27,6 +27,15 @@ spring:
     multipart:
       max-file-size: 50MB
       max-request-size: 55MB
+  data:
+    redis:
+      host: ${REDIS_HOST:redis-gateway}
+      port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+    redis:
+      time-to-live: 600000
+      cache-null-values: false
   kafka:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
