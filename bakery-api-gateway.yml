@@ -118,7 +118,7 @@ spring:
             - id: payment-service
               uri: lb://bakery-payment-service
               predicates:
-                - Path=/api/v1/payments/**,/api/v1/refunds/**,/api/v1/transactions/**
+                - Path=/api/v1/payments/**,/api/v1/refunds/**,/api/v1/transactions/**,/api/v1/admin/payments/**
               filters:
                 - RewritePath=/api/v1/(?<remaining>.*), /api/$\{remaining}
                 - AuthenticationFilter
